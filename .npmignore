@@ -1,6 +1,6 @@
 .git*
 .eslint*
-src
+#src
 docs
 test/
 .editorconfig

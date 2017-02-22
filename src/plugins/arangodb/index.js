@@ -2,13 +2,11 @@ import ArangoDb from 'arangojs';
 
 import Bootstrap from './bootstrap';
 
-const plugin = (server, options, next) => {
+const plugin = (server, options = {}, next) => {
+  const url = options.url || `http://root:orange5@arangodb.fa7f362b.svc.dockerapp.io:8529`;
+  const db = ArangoDb({ url, databaseName: 'villains' });
 
-  const { collections = ['villains'], databaseName = 'villains', url = `http://root:orange5@localhost:8529` } = options;
-
-  const db = ArangoDb({ url, databaseName });
-
-  Bootstrap(db, collections)
+  return Bootstrap(db, ['villains'])
     .then(() => {
       console.log(`ArangoDB has been bootstrapped`);
 
@@ -20,7 +18,7 @@ const plugin = (server, options, next) => {
 };
 
 plugin.attributes = {
-  name: 'arangodb',
+  name: 'arango',
   version: '1.0.0'
 };
 

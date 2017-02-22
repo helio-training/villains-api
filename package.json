@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node .",
+    "start": "node index.js",
     "start:dev": "nodemon .",
     "test": "ava test",
     "build:transpile": "babel src -d dist -s inline",
-    "prepublish": "npm run build:transpile"
+    "prepublish": "npm run build:transpile",
+    "predeploy": "npm run build:transpile",
+    "deploy": "now --npm deploy"
   },
   "keywords": [],
   "author": "",
@@ -18,15 +20,18 @@
       "babel-register"
     ]
   },
+  "engines": {
+    "node": "7.6.0"
+  },
   "devDependencies": {
     "ava": "^0.18.2",
-    "babel-cli": "^6.23.0",
-    "babel-polyfill": "^6.23.0",
-    "babel-preset-pundits": "^2.0.3",
-    "babel-register": "latest",
     "nodemon": "^1.11.0"
   },
   "dependencies": {
+    "babel-polyfill": "^6.23.0",
+    "babel-cli": "^6.23.0",
+    "babel-preset-pundits": "^2.0.3",
+    "babel-register": "latest",
     "arangojs": "^5.6.0",
     "blipp": "^2.3.0",
     "boom": "^4.2.0",

@@ -2,8 +2,9 @@ import { Server } from 'hapi';
 
 const server = new Server();
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 5000;
 const env = process.env.NODE_ENV;
+const arangoUri = process.env.ARANGODB_URL;
 
 server.connection({
   port, router: {
@@ -57,7 +58,9 @@ server.register([
   },
   {
     register: require('./plugins/arangodb'),
-    options: {}
+    options: {
+      url: arangoUri
+    }
   },
   require('./plugins/villains')
 ], err => {
