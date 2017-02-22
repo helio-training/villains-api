@@ -35,7 +35,8 @@ const plugin = (server, options, next) => {
             const { db } = request.server.plugins.arangodb;
             const villains = db.collection('villains');
 
-            const results = await villains.all();
+            const cursor = await villains.all();
+            const results = await cursor.all();
             return reply(results);
           } catch (e) {
             return Boom.badImplementation(e.message);
