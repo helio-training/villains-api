@@ -1,4 +1,5 @@
 import Joi from 'joi';
+import Boom from 'boom';
 
 const VillainSchema = {
   name: Joi.string().trim().label('Name'),
@@ -29,9 +30,16 @@ const plugin = (server, options, next) => {
       },
       handler: {
         async: async(request, reply) => {
-          const { db } = request.server.plugins.arangodb;
-          console.log(db);
-          return reply([]);
+
+          try {
+            const { db } = request.server.plugins.arangodb;
+            const villains = db.collection('villains');
+
+            const results = await villains.all();
+            return reply(results);
+          } catch (e) {
+            return Boom.badImplementation(e.message);
+          }
         }
       }
     },
