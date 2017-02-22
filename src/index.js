@@ -3,6 +3,7 @@ import { Server } from 'hapi';
 const server = new Server();
 
 const port = process.env.PORT || 4000;
+const env = process.env.NODE_ENV;
 
 server.connection({
   port, router: {
@@ -53,7 +54,12 @@ server.register([
         description: 'An example api'
       }
     }
-  }
+  },
+  {
+    register: require('./plugins/arangodb'),
+    options: {}
+  },
+  require('./plugins/villains')
 ], err => {
   if (err) throw err;
 
