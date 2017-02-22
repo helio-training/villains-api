@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node .",
     "start:dev": "nodemon .",
     "test": "ava test",
+    "build": "npm run build:transpile",
     "build:transpile": "babel src -d dist -s inline",
-    "prepublish": "npm run build:transpile",
-    "predeploy": "npm run build:transpile",
-    "deploy": "now --npm deploy"
+    "prepublish": "npm run build",
+    "prestart": "npm run build"
   },
   "keywords": [],
   "author": "",

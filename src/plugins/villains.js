@@ -29,7 +29,7 @@ const plugin = (server, options, next) => {
       },
       handler: {
         async: async(request, reply) => {
-          const {db} = request.server.plugins.arangodb;
+          // const {db} = request.server.plugins.arangodb;
           // console.log(db);
           return reply([]);
         }
