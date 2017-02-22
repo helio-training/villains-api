@@ -4,7 +4,7 @@ const server = new Server();
 
 const port = process.env.PORT || 5000;
 const env = process.env.NODE_ENV;
-const arangoUri = process.env.ARANGODB_URL;
+const url = process.env.ARANGODB_URL;
 
 server.connection({
   port, router: {
@@ -59,7 +59,7 @@ server.register([
   {
     register: require('./plugins/arangodb'),
     options: {
-      url: arangoUri
+      url
     }
   },
   require('./plugins/villains')

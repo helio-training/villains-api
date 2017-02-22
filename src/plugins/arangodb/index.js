@@ -3,7 +3,7 @@ import ArangoDb from 'arangojs';
 import Bootstrap from './bootstrap';
 
 const plugin = (server, options = {}, next) => {
-  const url = options.url || `http://root:orange5@arangodb.fa7f362b.svc.dockerapp.io:8529`;
+  const url = options.url || `http://root:orange5@localhost:8529`;
   const db = ArangoDb({ url, databaseName: 'villains' });
 
   return Bootstrap(db, ['villains'])
