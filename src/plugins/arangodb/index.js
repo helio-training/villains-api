@@ -18,7 +18,7 @@ const plugin = (server, options = {}, next) => {
 };
 
 plugin.attributes = {
-  name: 'arango',
+  name: 'arangodb',
   version: '1.0.0'
 };
 
