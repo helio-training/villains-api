@@ -11,8 +11,6 @@ const plugin = (server, options = {}, next) => {
 
   return Bootstrap(db, ['villains'])
     .then(() => {
-      console.log(`ArangoDB has been bootstrapped`);
-
       server.expose({ db });
 
       return next();
