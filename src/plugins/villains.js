@@ -30,13 +30,13 @@ const plugin = (server, options, next) => {
       },
       handler: {
         async: async(request, reply) => {
-
           try {
-            const { db } = request.server.plugins.arangodb;
+            const { db } = request.server.plugins['arangodb'];
             const villains = db.collection('villains');
 
             const cursor = await villains.all();
             const results = await cursor.all();
+            console.log(results);
             return reply(results);
           } catch (e) {
             return Boom.badImplementation(e.message);
