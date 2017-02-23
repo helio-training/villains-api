@@ -8,15 +8,11 @@ const plugin = (server, options = {}, next) => {
   const db = ArangoDb({ url, databaseName: 'villains' });
   server.expose({ db });
 
-  console.log(options);
-
-  return next();
-
-  // return Bootstrap(db, ['villains'])
-  //   .then(() => {
-  //     return next();
-  //   })
-  //   .catch(err => next(err));
+  return Bootstrap(db, ['villains'])
+    .then(() => {
+      return next();
+    })
+    .catch(err => next(err));
 };
 
 plugin.attributes = {

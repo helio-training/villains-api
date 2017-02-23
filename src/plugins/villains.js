@@ -59,15 +59,41 @@ const plugin = (server, options, next) => {
       },
       handler: {
         async: async(request, reply) => {
-          return reply([]);
+          try {
+            const villain = request.payload;
+            const collection = await collection(request);
+
+            const result = await collection.save(villain, { returnNew: true });
+
+            return reply(result).code(201);
+
+          } catch (e) {
+            return Boom.badImplementation(e.message);
+          }
         }
       }
     },
     {
       method: 'GET',
       path: '/v1/villains/{id}',
+
       config: {
         tags: ['api'],
+        // pre: [
+        //   {
+        //     method: {
+        //       async: async(request, reply) => {
+        //         const { id } = request.params;
+        //
+        //         const collection = await collection(request);
+        //         const results = (await collection.lookupByKeys([id])) || [];
+        //
+        //         return reply(results.length > 0);
+        //       }
+        //     },
+        //     assign: 'isFound'
+        //   }
+        // ],
         validate: {
           params: {
             id: Joi.string().required()
@@ -76,7 +102,23 @@ const plugin = (server, options, next) => {
       },
       handler: {
         async: async(request, reply) => {
-          return reply({});
+          try {
+            const { id } = request.params;
+            const collection = await collection(request);
+            console.log(colllection);
+
+            // if (!request.pre.isFound) {
+            //   return reply(Boom.notFound('Villain not found', id));
+            // }
+
+            const villain = await collection.document(id);
+            if(!villain) {
+                return reply(Boom.notFound('Villain not found', id));
+            }
+            return reply(villain);
+          } catch (e) {
+            return Boom.badImplementation(e.message);
+          }
         }
       }
     },
@@ -94,7 +136,20 @@ const plugin = (server, options, next) => {
       },
       handler: {
         async: async(request, reply) => {
-          return reply({});
+
+          try {
+            const { id } = request.params;
+            const { payload } = request;
+            const collection = await collection(request);
+
+            const villain = await collection.updateByExample({ _key: id }, payload);
+            if (!villain) {
+              return reply(Boom.notFound('Villain not found', id));
+            }
+            return reply(villain);
+          } catch (e) {
+            return Boom.badImplementation(e.message);
+          }
         }
       }
     },
@@ -111,7 +166,18 @@ const plugin = (server, options, next) => {
       },
       handler: {
         async: async(request, reply) => {
-          return reply({});
+
+          try {
+            const { id } = request.params;
+            const collection = await collection(request);
+
+            return reply({});
+
+          } catch (e) {
+            return Boom.badImplementation(e.message);
+          }
+
+
         }
       }
     }
