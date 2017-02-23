@@ -19,6 +19,11 @@ const VillainSchema = {
   rating: Joi.number().min(0).max(100).default(0)
 };
 
+const collection = async request => {
+  const { db } = request.server.plugins['arangodb'];
+  return db.collection('villains');
+};
+
 const plugin = (server, options, next) => {
 
   server.route([
@@ -31,12 +36,11 @@ const plugin = (server, options, next) => {
       handler: {
         async: async(request, reply) => {
           try {
-            const { db } = request.server.plugins['arangodb'];
-            const villains = db.collection('villains');
+            const villains = await collection(request);
 
             const cursor = await villains.all();
             const results = await cursor.all();
-            console.log(results);
+
             return reply(results);
           } catch (e) {
             return Boom.badImplementation(e.message);

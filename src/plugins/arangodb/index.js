@@ -4,18 +4,19 @@ import Bootstrap from './bootstrap';
 
 const plugin = (server, options = {}, next) => {
 
-  const url = options.url || `http://root:orange5@localhost:8529`;
+  const url = options.url;
   const db = ArangoDb({ url, databaseName: 'villains' });
+  server.expose({ db });
 
   console.log(options);
 
-  return Bootstrap(db, ['villains'])
-    .then(() => {
-      server.expose({ db });
+  return next();
 
-      return next();
-    })
-    .catch(err => next(err));
+  // return Bootstrap(db, ['villains'])
+  //   .then(() => {
+  //     return next();
+  //   })
+  //   .catch(err => next(err));
 };
 
 plugin.attributes = {

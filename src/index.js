@@ -4,7 +4,7 @@ const server = new Server();
 
 const port = process.env.PORT || 5000;
 const env = process.env.NODE_ENV;
-const url = process.env.ARANGODB_URL || `http://root:orange5@localhost:8529`;
+const url = process.env.ARANGODB_URL;
 
 server.connection({
   port, router: {
